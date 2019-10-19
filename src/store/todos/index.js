@@ -31,7 +31,6 @@ const todoResposeTransformer = response =>
   );
 
 function todoReducer(state = initialState, action) {
-  console.log({action})
   switch (action.type) {
     case LOAD_TODOS_REQUEST:
       return {
