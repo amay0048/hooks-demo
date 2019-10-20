@@ -4,6 +4,8 @@ import reducerManager from "../rest-helpers/reducerManager";
 import generateAPITypes from "../rest-helpers/generateAPITypes";
 import axios from "axios";
 
+const API_BASE = 'https://jsonplaceholder.typicode.com';
+
 const [
   LOAD_USERS_REQUEST,
   LOAD_USERS_SUCCESS,
@@ -65,7 +67,9 @@ function userReducer(state = initialState, action) {
         isLoading: true
       };
     case UPDATE_USER_SUCCESS: {
-      const { response: { data } } = action;
+      const {
+        response: { data }
+      } = action;
       const { allIds, byIds } = state;
       return {
         ...state,
@@ -104,20 +108,20 @@ export const getUsersIsLoading = store => getUsersState(store).isLoading;
 export const getUsersIsError = store => getUsersState(store).isError;
 
 export const getUsers = store =>
-  getUserList(store).map(id => getUserById(store, id));
+  getUserList(store).map(id => getUserById(id)(store));
 
 export const loadUsersIfNeeded = () => ({
   types: [LOAD_USERS_REQUEST, LOAD_USERS_SUCCESS, LOAD_USERS_FAILURE],
   shouldCallAPI: store =>
     !getUserList(store).length && !getUsersIsLoading(store),
-  callAPI: () => axios(`https://jsonplaceholder.typicode.com/users`),
+  callAPI: () => axios(`${API_BASE}/users`),
   payload: {}
 });
 
 export const persistUserUpdate = user => ({
   types: [UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE],
   callAPI: () =>
-    axios.put(`https://jsonplaceholder.typicode.com/users/${user.id}`, user),
+    axios.put(`${API_BASE}/users/${user.id}`, user),
   payload: {}
 });
 

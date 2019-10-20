@@ -1,11 +1,14 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { useUser } from "./store/users";
+import { useParams } from "react-router-dom";
 import Loader from "./render-helpers/Loader";
 
 const FORM_HANDLE = "USER_FORM";
 
-let TodoForm = props => {
+let UserForm = reduxForm({
+  form: FORM_HANDLE
+})(props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <form onSubmit={handleSubmit}>
@@ -74,17 +77,17 @@ let TodoForm = props => {
       </div>
     </form>
   );
-};
-
-TodoForm = reduxForm({
-  form: FORM_HANDLE
-})(TodoForm);
+});
 
 export default () => {
-  const { user, isLoading, isError, persistUserUpdate } = useUser(1, undefined);
+  let { id } = useParams();
+  const { user, isLoading, isError, persistUserUpdate } = useUser(
+    id,
+    undefined
+  );
   return (
     <Loader isLoading={isLoading} isError={isError}>
-      <TodoForm initialValues={user} onSubmit={persistUserUpdate} />
+      <UserForm initialValues={user} onSubmit={persistUserUpdate} />
     </Loader>
   );
 };
