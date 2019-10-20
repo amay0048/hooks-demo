@@ -1,4 +1,9 @@
 import { combineReducers } from 'redux';
+import { reducer as reduxFormReducer } from 'redux-form';
+
+const staticReducers = {
+    form: reduxFormReducer,
+}
 
 export function createReducerManager(initialReducers) {
     // Create an object which maps keys to reducers
@@ -58,10 +63,6 @@ export function createReducerManager(initialReducers) {
             combinedReducer = combineReducers(reducers)
         }
     }
-}
-
-const staticReducers = {
-    test: (state = {}) => state,
 }
 
 export default createReducerManager(staticReducers)

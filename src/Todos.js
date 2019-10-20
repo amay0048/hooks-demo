@@ -4,7 +4,7 @@ import { useUser } from "./store/users";
 import Loader from "./render-helpers/Loader";
 
 const User = ({ id }) => {
-  const { user, isLoading, isError } = useUser(id);
+  const { user, isLoading, isError } = useUser(id, {});
   return (
     <Loader isLoading={isLoading} isError={isError}>
       <small>
